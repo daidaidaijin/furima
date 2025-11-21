@@ -1,0 +1,61 @@
+.site-header {
+background-image: url("/images/logo.png");
+    background-position: left center;
+    background-color: #000;
+    height: 85px;
+    width: 100%;
+    background-repeat: no-repeat;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+.header-inner::before {
+    content: "";
+    display: block;
+    width: 150px;
+}
+
+.header-nav {
+    margin-left: auto;
+    padding-left: 300px;
+}
+
+.header-nav ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 0;
+}
+
+.header-nav li {
+    margin-left: 30px;
+}
+
+.header-nav li:first-child {
+    margin-left: 0;
+}
+
+.header-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .header-inner::before {
+        width: 120px;
+    }
+
+    .header-nav li {
+        margin-left: 20px;
+    }
+}
