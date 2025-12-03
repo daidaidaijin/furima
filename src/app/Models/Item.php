@@ -3,17 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Item extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password',
-        'postal_code', 'address_pref', 'address_city', 'address_detail',
-        'profile_image'
+        'name', 'brand', 'description', 'price'
     ];
+
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'category_items');
+    }
 
     public function orders() {
         return $this->hasMany(Order::class);
