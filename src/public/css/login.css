@@ -1,0 +1,27 @@
+.site-header {
+    background-color: #000;
+    height: 105px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.header-logo {
+    width: 390px;
+    height: 50px;
+    background-image: url("/images/logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+}

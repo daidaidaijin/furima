@@ -41,6 +41,17 @@
     box-sizing: border-box;
 }
 
+.logout-button {
+    background: none;
+    border: none;
+    color: #fff;
+    /* ナビの文字色に合わせる */
+    cursor: pointer;
+    font-size: 20px;
+    padding: 50;
+    /* ボタン特有の余白を消す */
+}
+
 .header-nav ul {
     display: flex;
     list-style: none;

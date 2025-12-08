@@ -1,6 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductlistController;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', [ProductlistController::class, 'productlist']);
+// トップページ → ログイン前の商品一覧
+Route::get('/', function () {
+    return view('product_list_guest');
+});
+
+// ログアウト
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
+
+// ログイン後の商品一覧（認証必須）
+Route::get('/products', function () {
+    return view('product_list');
+})->middleware('auth');
