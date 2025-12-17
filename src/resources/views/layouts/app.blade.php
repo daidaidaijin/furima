@@ -47,7 +47,7 @@
 
     {{-- 共通：マイページ・出品 --}}
     <li><a href="/mypage">マイページ</a></li>
-    <li class="sell"><a href="/sell">出品</a></li>
+    <li class="sell"><a href="{{route('items.sell')}}">出品</a></li>
   </ul>
 </nav>
     @endif

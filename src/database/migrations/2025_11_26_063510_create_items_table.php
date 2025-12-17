@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('title');
             $table->string('brand')->nullable();
             $table->text('description');
             $table->string('condition', 50);

@@ -10,7 +10,14 @@ class Item extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'brand', 'description', 'price'
+        'user_id',
+        'title',
+        'brand',
+        'condition',
+        'description',
+        'price',
+        'image_path',
+        'is_sold',
     ];
 
     public function categories() {
