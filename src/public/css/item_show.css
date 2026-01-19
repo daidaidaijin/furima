@@ -1,0 +1,325 @@
+/* =========================
+   商品詳細（item_show.css）
+   50%:50% + コメントを右カラム下へ
+   ========================= */
+
+.item-show {
+    width: 100%;
+    padding: 24px 40px;
+    box-sizing: border-box;
+}
+
+/* 画面の基準幅（ここを基準に“半々”を作る） */
+.item-show__top,
+.item-show__comments-area {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* 上段（画像 + 情報）を 1:1 にする */
+.item-show__top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* ★半々 */
+    gap: 60px;
+    align-items: start;
+}
+
+/* 左：画像（半分の中で最大幅を持たせる） */
+.item-show__image {
+    width: 100%;
+}
+
+/* 画像は「左カラムの幅いっぱい」 */
+.item-show__image img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* ★正方形で安定 */
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    background: #d9d9d9;
+}
+
+.item-show__image--dummy {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    background: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #666;
+}
+
+/* 右：情報 */
+.item-show__info {
+    width: 100%;
+    min-width: 0;
+}
+
+.item-show__name {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.item-show__brand {
+    margin: 0 0 12px;
+    color: #666;
+}
+
+.item-show__price {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 14px;
+}
+
+.item-show__price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    margin-left: 6px;
+}
+
+/* いいね・コメント */
+.item-show__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 18px;
+}
+
+/* アイコンボタン共通 */
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* アイコン画像 */
+.like-btn img,
+.comment-icon {
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    object-fit: contain;
+}
+
+/* 数字 */
+.count {
+    font-weight: 700;
+    color: #333;
+    margin-right: 8px;
+}
+
+/* 購入ボタン（右カラム幅に合わせて100%） */
+.buy-btn {
+    display: block;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    background: #ff4b4b;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    margin: 8px 0 18px;
+}
+
+/* 商品説明 */
+.item-show__desc {
+    margin-top: 22px;
+}
+
+.item-show__desc h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.item-show__desc p {
+    margin: 0;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* 商品情報 */
+.item-show__meta {
+    margin-top: 22px;
+}
+
+.item-show__meta h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.item-show__meta dl {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 12px 16px;
+    margin: 0;
+}
+
+.item-show__meta dt {
+    color: #666;
+    font-weight: 700;
+}
+
+.item-show__meta dd {
+    margin: 0;
+    color: #333;
+}
+
+/* カテゴリータグ */
+.tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #f2f2f2;
+    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 6px;
+    margin-bottom: 6px;
+}
+
+/* =========================
+   コメント：右カラムの下へ
+   ========================= */
+
+/*
+  item-show__comments-area を 2カラムにして
+  左を空けて右だけにコメントを置く（右すぎ問題も解消）
+*/
+.item-show__comments-area {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* ★上段と同じ“半々” */
+    gap: 60px;
+}
+
+/* コメント本体は右カラムに配置 */
+.item-show__comments {
+    grid-column: 2;
+    width: 100%;
+}
+
+.item-show__comments h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+
+/* コメント1件 */
+.comment-row {
+    padding: 14px 0;
+    border-top: 1px solid #ddd;
+}
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.comment-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #d9d9d9;
+}
+
+.comment-name {
+    margin: 0;
+    font-weight: 700;
+}
+
+.comment-body {
+    margin: 0;
+    background: #f5f5f5;
+    padding: 10px 12px;
+    border-radius: 6px;
+    line-height: 1.7;
+}
+
+/* コメントフォーム */
+.comment-form {
+    margin-top: 18px;
+}
+
+.comment-label {
+    display: block;
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 140px;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    padding: 12px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.error {
+    color: #ff4b4b;
+    font-weight: 700;
+    margin: 10px 0 0;
+}
+
+.need-login {
+    margin: 10px 0 0;
+    color: #666;
+}
+
+.comment-submit {
+    display: inline-block;
+    margin-top: 14px;
+    width: 100%;
+    height: 44px;
+    line-height: 44px;
+    background: #ff4b4b;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+/* =========================
+   レスポンシブ
+   ========================= */
+
+@media (max-width: 960px) {
+    .item-show {
+        padding: 18px 16px;
+    }
+
+    .item-show__top {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .item-show__comments-area {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .item-show__comments {
+        grid-column: 1;
+        /* 1カラムになったら普通に全幅 */
+    }
+} 

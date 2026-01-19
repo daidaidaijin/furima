@@ -1,3 +1,7 @@
+/* =========================
+   Header
+========================= */
+
 .site-header {
     background-color: #000;
     height: 105px;
@@ -6,15 +10,22 @@
     margin: 0;
 }
 
+/* 3カラムで安定させる */
 .header-inner {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
+    padding: 0 24px;
+    /* 端の余白 */
+    box-sizing: border-box;
+    gap: 24px;
+    /* ロゴ/検索/ナビの間隔 */
+}
+
+/* ロゴ */
+.header-logo-link {
+    display: inline-block;
+    flex: 0 0 auto;
 }
 
 .header-logo {
@@ -26,50 +37,543 @@
     background-position: left center;
 }
 
+/* 検索 */
 .header-search {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     justify-content: center;
-    margin: 0;
+    min-width: 200px;
+    /* 詰まり防止 */
+}
+
+.header-search form {
+    width: 100%;
+    max-width: 600px;
+    /* 中央に収める */
 }
 
 .header-search input[type="text"] {
-    width: 600px;
+    width: 100%;
     height: 45px;
     padding: 5px 10px;
     font-size: 20px;
     box-sizing: border-box;
 }
 
-.logout-button {
-    background: none;
-    border: none;
-    color: #fff;
-    /* ナビの文字色に合わせる */
-    cursor: pointer;
-    font-size: 20px;
-    padding: 50;
-    /* ボタン特有の余白を消す */
+/* ナビ全体（右寄せ） */
+.header-nav {
+    flex: 0 0 auto;
 }
 
 .header-nav ul {
     display: flex;
+    align-items: center;
     list-style: none;
-    gap: 3px;
+    gap: 20px;
+    /* ★ここで間隔を管理 */
     margin: 0;
     padding: 0;
 }
 
-.header-nav ul li.sell a{
+/* a 共通 */
+.header-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+/* ログアウトボタン（aと同じ見た目） */
+.logout-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0;
+    /* ★ padding:50 は崩れるので0 */
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* 出品ボタン */
+.header-nav ul li.sell a {
     background-color: #fff;
     color: #000;
     padding: 8px 16px;
     border-radius: 5px;
+    font-weight: 700;
 }
 
-.header-nav a {
-    color: #fff;
+/* =========================
+   商品一覧（おすすめ/マイリスト + 4列）
+========================= */
+
+.product-page {
+    width: 100%;
+    padding: 0 40px 40px;
+    box-sizing: border-box;
+}
+
+/* タブ */
+.list-tabs-wrap {
+    width: 100%;
+    padding-top: 14px;
+    box-sizing: border-box;
+}
+
+.list-tabs {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    max-width: 520px;
+}
+
+.list-tab {
     text-decoration: none;
-    margin-right: 40px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #666;
+    padding: 8px 0;
+}
+
+.list-tab.is-active {
+    color: #ff4b4b;
+}
+
+.list-line {
+    height: 1px;
+    background: #777;
+    width: 100%;
+    margin: 6px 0 26px;
+}
+
+/* 4列 */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+    align-items: start;
+}
+
+.product-card {
+    display: block;
+    text-decoration: none;
+    color: #111;
+}
+
+.product-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #d9d9d9;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-thumb--dummy {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: #444;
+    font-weight: 700;
     font-size: 20px;
+}
+
+.product-name {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.empty-text {
+    font-weight: 700;
+    color: #666;
+}
+
+/* =========================
+   エラー表示 / プロフィール系（元のまま）
+========================= */
+
+.error-message {
+    color: #ff3333;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.error-box {
+    border: 1px solid #ff3333;
+    background: #fff5f5;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+}
+
+.error-box ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.profile-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile-input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+}
+
+/* =========================
+   レスポンシブ（ヘッダーと商品列）
+========================= */
+
+/* 1200px以下は3列 */
+@media screen and (max-width: 1200px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .header-logo {
+        width: 300px;
+    }
+}
+
+/* 900px以下は2列 + 検索幅抑える */
+@media screen and (max-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header-search form {
+        max-width: 420px;
+    }
+
+    .header-nav a,
+    .logout-button {
+        font-size: 16px;
+    }
+}
+
+/* 600px以下は1列 + ヘッダー縦寄せ */
+@media screen and (max-width: 600px) {
+    .header-inner {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 16px;
+        gap: 10px;
+    }
+
+    .header-logo {
+        width: 220px;
+        height: 70px;
+    }
+
+    .header-search {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .header-search form {
+        max-width: none;
+    }
+
+    .header-nav {
+        order: 2;
+        margin-left: auto;
+    }
+
+    .product-page {
+        padding: 0 16px 32px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* コンテナ・見出し */
+.sell-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sell-title {
+    text-align: center;
+    margin: 24px 0;
+}
+
+/* セクション */
+.sell-section {
+    margin-bottom: 30px;
+}
+
+.sell-section__title {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.sell-section__title--line {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* エラー */
+.sell-errors {
+    color: red;
+    margin-bottom: 20px;
+}
+
+/* 画像枠 */
+.sell-image-box {
+    border: 1px dashed #ccc;
+    padding: 30px;
+    text-align: center;
+}
+
+/* ラベル */
+.sell-label {
+    display: block;
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+/* 入力共通 */
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #cfcfcf;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background: #fff;
+    /* ←普段は白 */
+}
+
+/* 通常時（閉じてる） */
+.form-select {
+    background: #fff;
+}
+
+/* クリックして展開している間 */
+.form-select:focus {
+    background: #e0e0e0;
+    /* ← 少し濃いグレー */
+    border-color: #999;
+    outline: none;
+}
+
+/* カテゴリ未選択（今の見た目） */
+.category-pill {
+    border: 1px solid #ff6b6b;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    background: #fff;
+    color: #ff6b6b;
+}
+
+/* チェックボックスは見えなくする */
+.category-pill input[type="checkbox"] {
+    display: none;
+}
+
+/* ✅ 選択中の見た目 */
+.category-pill:has(input[type="checkbox"]:checked) {
+    background: #ff6b6b;
+    /* うっすら赤 → しっかり赤 */
+    color: #fff;
+}
+
+/* ✅ 価格：¥ + input を横幅100%に */
+.price-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.price-field__yen {
+    min-width: 16px;
+}
+
+.price-field .form-input {
+    margin-top: 0;
+    flex: 1;
+}
+
+/* ✅ 出品ボタン：2枚目寄せの色 */
+.btn-submit {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px 0;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 700;
+    background: #f54d4d;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background: #ff4d4d;
+}
+
+/* ===== 販売価格（¥をボックス内に表示） ===== */
+.price-input {
+    position: relative;
+    margin-top: 8px;
+}
+
+.price-input__yen {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #000000;
+    font-size: 14px;
+    pointer-events: none;
+    /* クリック邪魔しない */
+}
+
+/* ¥の分だけ左に余白を作る */
+.price-input__field {
+    padding-left: 28px;
+}
+
+/* 購入画面 */
+.purchase {
+    max-width: 1000px;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+}
+
+.purchase__item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.purchase__thumb {
+    width: 120px;
+    height: 120px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.purchase__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.purchase__thumb--dummy {
+    font-size: 12px;
+    color: #666;
+}
+
+.purchase__name {
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.purchase__price {
+    margin: 0;
+}
+
+.purchase__hr {
+    border: none;
+    border-top: 1px solid #e5e5e5;
+    margin: 22px 0;
+}
+
+.purchase__block {
+    margin-bottom: 10px;
+}
+
+.purchase__label {
+    font-weight: 700;
+    margin: 0 0 8px;
+}
+
+.purchase__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.purchase__change {
+    color: #1e73ff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.purchase__address p {
+    margin: 4px 0;
+    font-size: 13px;
+}
+
+/* 右の小計 */
+.purchase__summary {
+    border: 1px solid #cfcfcf;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.purchase__summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.purchase__summary-row:last-child {
+    border-bottom: none;
+}
+
+/* 住所変更画面 */
+.address-edit {
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+.address-edit__title {
+    text-align: center;
+    margin: 10px 0 30px;
+}
+
+.address-edit__form {
+    max-width: 600px;
+    margin: 0 auto;
 }

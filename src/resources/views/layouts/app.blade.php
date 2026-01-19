@@ -7,52 +7,83 @@
 
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/item_show.css') }}">
 </head>
 
 <body>
+@php
+    // ヘッダーを簡略表示（ロゴのみ）にするページ
+    $authPages = [
+        'login',
+        'register',
+        'verification.*',
+        'password.*',
+    ];
+@endphp
 
 <header class="site-header">
-  <div class="header-inner">
+    <div class="header-inner">
 
-    {{-- ロゴ --}}
-    <div class="header-logo"></div>
+        {{-- ロゴ（常に表示） --}}
+        <a href="{{ route('items.index') }}" class="header-logo-link">
+            <div class="header-logo"></div>
+        </a>
 
-    {{-- 検索フォーム（ログインページでは非表示にする） --}}
-    @if (!Route::is('login'))
-    <div class="header-search">
-      <form action="/search" method="GET">
-        <input type="text" name="keyword" placeholder="なにをお探しですか？">
-      </form>
+        {{-- 認証系ページ以外 --}}
+        @if (!request()->routeIs($authPages))
+
+            {{-- 検索 --}}
+            <div class="header-search">
+                <form action="/search" method="GET">
+                    <input type="text" name="keyword" placeholder="なにをお探しですか？">
+                </form>
+            </div>
+
+            {{-- ナビ --}}
+            <nav class="header-nav">
+                <ul>
+
+                    {{-- ログイン / ログアウト --}}
+                    @guest
+                        <li><a href="{{ route('login') }}">ログイン</a></li>
+                    @endguest
+
+                    @auth
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="logout-button">ログアウト</button>
+                            </form>
+                        </li>
+                    @endauth
+
+                    {{-- マイページ --}}
+                    <li>
+                        @auth
+                            <a href="{{ route('mypage') }}">マイページ</a>
+                        @else
+                            <a href="{{ route('login') }}">マイページ</a>
+                        @endauth
+                    </li>
+
+                    {{-- 出品 --}}
+                    <li class="sell">
+                        @guest
+                            <a href="{{ route('login') }}">出品</a>
+                        @else
+                            <a href="{{ route('items.sell') }}">出品</a>
+                        @endguest
+                    </li>
+
+                </ul>
+            </nav>
+
+        @endif
+
     </div>
-    @endif
-
-    {{-- ナビゲーション --}}
-    @if (!Route::is('login'))
-    <nav class="header-nav">
-  <ul>
-    {{-- ログイン前：一番左にログイン --}}
-    @guest
-      <li><a href="/login">ログイン</a></li>
-    @endguest
-
-    {{-- ログイン後：一番左にログアウト --}}
-    @auth
-      <li>
-        <form method="POST" action="{{ route('logout') }}">
-          @csrf
-          <button type="submit" class="logout-button">ログアウト</button>
-        </form>
-      </li>
-    @endauth
-
-    {{-- 共通：マイページ・出品 --}}
-    <li><a href="/mypage">マイページ</a></li>
-    <li class="sell"><a href="{{route('items.sell')}}">出品</a></li>
-  </ul>
-</nav>
-    @endif
-
-  </div>
 </header>
 
 <main>

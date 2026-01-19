@@ -1,0 +1,140 @@
+/* 全体 */
+.mypage {
+    width: 100%;
+    padding: 24px 40px;
+    box-sizing: border-box;
+}
+
+/* 上部プロフィール行（アイコン / 名前 / 編集ボタン） */
+.mypage__profile {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 18px 0 10px;
+}
+
+/* アイコン */
+.mypage__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: 0 0 auto;
+}
+
+.mypage__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mypage__avatar--dummy {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #d9d9d9;
+}
+
+/* 名前 */
+.mypage__name {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+/* 編集ボタン（右寄せ） */
+.mypage__edit {
+    margin-left: auto;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* タブ */
+.mypage__tabs {
+    display: flex;
+    gap: 28px;
+    margin-top: 10px;
+}
+
+.mypage__tab {
+    text-decoration: none;
+    color: #444;
+    font-weight: 700;
+    padding: 10px 0;
+    position: relative;
+}
+
+.mypage__tab.is-active {
+    color: #ff4b4b;
+}
+
+.mypage__tab.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 2px;
+    background: #ff4b4b;
+}
+
+/* タブ下の横線 */
+.mypage__line {
+    margin-top: 10px;
+    height: 1px;
+    background: #aaa;
+}
+
+/* 商品グリッド */
+.mypage__list {
+    margin-top: 26px;
+    display: grid;
+    grid-template-columns: repeat(4, 220px);
+    gap: 28px;
+}
+
+/* カード */
+.mypage__card {
+    display: block;
+    text-decoration: none;
+    color: #111;
+}
+
+.mypage__thumb {
+    width: 220px;
+    height: 220px;
+    background: #d9d9d9;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.mypage__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mypage__thumb--dummy {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #333;
+}
+
+.mypage__title {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 空表示 */
+.mypage__empty {
+    margin-top: 20px;
+    color: #333;
+}

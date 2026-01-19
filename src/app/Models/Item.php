@@ -25,6 +25,15 @@ class Item extends Model
     }
 
     public function orders() {
-        return $this->hasMany(Order::class);
+        return $this->hasOne(\App\Models\Order::class);
     }
+
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+{
+    return $this->hasMany(\App\Models\Comment::class);
+}
 }

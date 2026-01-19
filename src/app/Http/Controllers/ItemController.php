@@ -2,35 +2,93 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
 use App\Models\Category;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    // 出品ページ表示
+    /**
+     * トップ（おすすめ）
+     * ログイン: product_list
+     * ゲスト: product_list_guest
+     */
+    public function index()
+    {
+        // おすすめ（今は新着順）
+        $items = Item::withCount(['likes', 'comments'])
+            ->latest()
+            ->get();
+
+        if (auth()->check()) {
+            return view('product_list', [
+                'items' => $items,
+                'activeTab' => 'recommend',
+            ]);
+        }
+
+        return view('product_list_guest', [
+            'items' => $items,
+            'activeTab' => 'recommend',
+        ]);
+    }
+
+    /**
+     * マイリスト（いいねした商品）
+     * ログイン必須（ルート側で auth を付ける想定）
+     */
+    public function mylist()
+    {
+        $items = Item::withCount(['likes', 'comments'])
+            ->whereHas('likes', function ($q) {
+                $q->where('user_id', auth()->id());
+            })
+            ->latest()
+            ->get();
+
+        return view('product_list', [
+            'items' => $items,
+            'activeTab' => 'mylist',
+        ]);
+    }
+
+    /**
+     * 商品詳細
+     */
+    public function show(Item $item)
+    {
+        $item->load([
+            'categories',
+            'comments.user',
+        ])->loadCount([
+            'likes',
+            'comments',
+        ]);
+
+        $isLiked = false;
+        if (auth()->check()) {
+            $isLiked = $item->likes()
+                ->where('user_id', auth()->id())
+                ->exists();
+        }
+
+        return view('items.show', compact('item', 'isLiked'));
+    }
+
+    /**
+     * 出品ページ表示
+     */
     public function create()
     {
         $categories = Category::all();
         return view('items.sell', compact('categories'));
     }
 
-    public function show(Item $item)
-    {
-        return view('items.show', compact('item'));
-    }
-
-    public function index()
-    {
-        //新しい順で商品を取得
-        $items = Item::latest()->get();
-        return view('product_list_guest',compact('items'));
-    }
-
-    // 出品処理（保存）
+    /**
+     * 出品処理（保存）
+     */
     public function store(Request $request)
     {
-        // ① バリデーション
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'title' => 'required|string|max:255',
@@ -40,10 +98,10 @@ class ItemController extends Controller
             'categories' => 'required|array',
         ]);
 
-        // ② 画像を保存
+        // 画像保存
         $imagePath = $request->file('image')->store('items', 'public');
 
-        // ③ 商品を保存
+        // 商品保存
         $item = Item::create([
             'user_id' => auth()->id(),
             'title' => $request->title,
@@ -55,10 +113,9 @@ class ItemController extends Controller
             'is_sold' => false,
         ]);
 
-        // ④ カテゴリを紐づけ
+        // カテゴリ紐づけ
         $item->categories()->sync($request->categories);
 
-        // ⑤ 完了
         return redirect('/')->with('success', '商品を出品しました');
     }
 }

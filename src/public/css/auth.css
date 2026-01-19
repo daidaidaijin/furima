@@ -1,0 +1,146 @@
+/* public/css/auth.css */
+
+.auth-wrap {
+    min-height: calc(100vh - 85px);
+    /* ヘッダー高さに合わせて調整 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 48px 56px;
+    background: #fff;
+}
+
+.auth-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin: -10px 0 70px;
+}
+
+.auth-group {
+    margin-bottom: 18px;
+}
+
+.auth-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.auth-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+    outline: none;
+}
+
+.auth-input:focus {
+    border-color: #999;
+}
+
+.auth-actions {
+    margin-top: 34px;
+}
+
+.auth-button {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 3px;
+    background: #ff4b4b;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #1e6bd6;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.auth-errors {
+    color: #d00;
+    margin: 0 0 18px;
+    padding-left: 18px;
+}
+
+.auth-verify-text {
+    font-size: 14px;
+    line-height: 2;
+    text-align: center;
+}
+
+.auth-gray-button {
+    padding: 10px 18px;
+    border: 1px solid #999;
+    background: #e6e6e6;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.auth-link-button {
+    border: none;
+    background: none;
+    color: #1e6bd6;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.auth-verify-message {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 2;
+    text-align: center;
+
+    /* 👇 これが重要 */
+    word-break: keep-all;
+    /* 単語の途中で改行しない */
+    overflow-wrap: normal;
+    /* 文字単位の折り返し禁止 */
+}
+
+.auth-verify-message {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 2;
+    text-align: center;
+
+    /* 👇 これが重要 */
+    word-break: keep-all;
+    /* 単語の途中で改行しない */
+    overflow-wrap: normal;
+    /* 文字単位の折り返し禁止 */
+}
+
+.auth-wrap {
+    min-height: calc(100vh - 80px);
+    /* ヘッダー分を引く */
+    display: flex;
+    justify-content: center;
+    /* 横中央 */
+    align-items: flex-start;
+    /* 縦は上寄せ */
+    padding-top: 120px;
+    /* 上からの位置調整 */
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    /* ← これが超重要 */
+}

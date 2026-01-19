@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginViewResponse;
 use Laravel\Fortify\Http\Responses\SimpleViewResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -32,12 +33,25 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        $this->app->singleton(RegisterResponse::class, function () {
+        return new class implements RegisterResponse {
+            public function toResponse($request)
+            {
+                return redirect()->route('verification.notice');
+            }
+        };
+    });
+
         Fortify::loginView(function () {
             return view('auth.login');
         });
 
         Fortify::registerView(function(){
             return view('auth.register');
+        });
+
+        Fortify::verifyEmailView(function () {
+        return view('auth.verify-email');
         });
 
         RateLimiter::for('login', function (Request $request) {

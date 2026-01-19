@@ -1,0 +1,87 @@
+/* public/css/profile.css */
+
+.profile-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 16px 80px;
+}
+
+.profile-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 10px 0 30px;
+}
+
+.profile-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 26px;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #d9d9d9;
+    flex: 0 0 auto;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-file {
+    display: inline-block;
+    padding: 8px 14px;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.profile-file input {
+    display: none;
+}
+
+.profile-group {
+    margin: 18px 0;
+}
+
+.profile-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.profile-input {
+    width: 100%;
+    height: 44px;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+    padding: 0 12px;
+}
+
+.profile-actions {
+    margin-top: 34px;
+}
+
+.profile-submit {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 3px;
+    background: #ff4b4b;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}

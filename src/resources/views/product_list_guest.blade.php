@@ -1,57 +1,43 @@
 @extends('layouts.app')
 
-@section('title', '商品一覧（ゲスト）')
+@section('title', '商品一覧')
 
 @section('content')
+<div class="product-page">
 
-<div class="item-list-container">
+  {{-- タブ（おすすめ / マイリスト） --}}
+  <div class="list-tabs-wrap">
+    <div class="list-tabs">
+      <a href="{{ route('items.index') }}"
+         class="list-tab {{ ($activeTab ?? 'recommend') === 'recommend' ? 'is-active' : '' }}">
+        おすすめ
+      </a>
 
-    <h2>おすすめ商品</h2>
-
-    {{-- 商品がない場合 --}}
-    @if ($items->isEmpty())
-        <p>まだ商品は出品されていません。</p>
-    @endif
-
-    <div class="item-list" style="display:flex; flex-wrap:wrap; gap:20px;">
-
-        @foreach ($items as $item)
-            <div class="item-card" style="width:200px; border:1px solid #ccc; padding:10px;">
-
-                {{-- 商品画像（クリックで詳細へ） --}}
-                <div class="item-image">
-                    <a href="{{ route('items.show', $item->id) }}">
-                        @if ($item->image_path)
-                            <img
-                                src="{{ asset('storage/' . $item->image_path) }}"
-                                alt="{{ $item->title }}"
-                                style="width:100%; height:150px; object-fit:cover;"
-                            >
-                        @else
-                            <div style="width:100%; height:150px; background:#eee; display:flex; align-items:center; justify-content:center;">
-                                画像なし
-                            </div>
-                        @endif
-                    </a>
-                </div>
-
-                {{-- 商品名（クリックで詳細へ） --}}
-                <div class="item-name" style="margin-top:8px;">
-                    <a href="{{ route('items.show', $item->id) }}">
-                        {{ $item->title }}
-                    </a>
-                </div>
-
-                {{-- 価格 --}}
-                <div class="item-price">
-                    ¥{{ number_format($item->price) }}
-                </div>
-
-            </div>
-        @endforeach
-
+      {{-- ゲストはログイン誘導 --}}
+      <a href="{{ route('login') }}" class="list-tab">
+        マイリスト
+      </a>
     </div>
+  </div>
+  <div class="list-line"></div>
+
+  {{-- 商品一覧 --}}
+  <div class="product-grid">
+    @forelse($items as $item)
+      <a class="product-card" href="{{ route('items.show', $item) }}">
+        <div class="product-thumb">
+          @if(!empty($item->image_path))
+            <img src="{{ asset('storage/' . $item->image_path) }}" alt="商品画像">
+          @else
+            <div class="product-thumb--dummy">商品画像</div>
+          @endif
+        </div>
+        <p class="product-name">{{ $item->title ?? $item->name }}</p>
+      </a>
+    @empty
+      <p class="empty-text">商品がありません。</p>
+    @endforelse
+  </div>
 
 </div>
-
 @endsection
