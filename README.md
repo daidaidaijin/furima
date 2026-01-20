@@ -9,7 +9,7 @@ Laravelを用いたフリマアプリです。
 ## 環境構築
 
 ### Dockerビルド
-- `git clone https://github.com/【GitHubユーザー名】/【リポジトリ名】.git`
+- `git clone https://github.com/daidaidaijin/furima.git`
 - `cd furima`
 - `docker compose up -d`
 
