@@ -2,27 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
 
 class PurchaseController extends Controller
 {
+    /**
+     * 購入画面表示
+     */
     public function show(Item $item)
     {
         $user = auth()->user();
 
+        // 売却済み or 自分の商品は購入不可
         if ($item->is_sold || $item->user_id === $user->id) {
             abort(403);
         }
 
-        // ① 購入用住所があれば優先（住所変更画面で保存する想定）
+        // ① 登録済み配送先があれば優先
         $shipping = $user->shippingAddress;
 
-        // ② 無ければマイページ（usersテーブル）の住所を表示用に使う
+        // ② 無ければ users テーブルの住所を仮表示
         if (!$shipping) {
             $address = trim(implode('', array_filter([
                 $user->address_pref,
@@ -33,25 +37,27 @@ class PurchaseController extends Controller
             $shipping = (object) [
                 'postal_code' => $user->postal_code ?? null,
                 'address'     => $address ?: null,
-                'building'    => null, // usersに無いので一旦null
+                'building'    => null,
             ];
         }
 
-    return view('purchase.show', compact('item', 'shipping'));
-}
+        return view('purchase.show', compact('item', 'shipping'));
+    }
 
-
-    public function checkout(Request $request, Item $item)
+    /**
+     * Stripe決済開始
+     */
+    public function checkout(PurchaseRequest $request, Item $item)
     {
         $user = auth()->user();
 
+        // 売却済み or 自分の商品は購入不可
         if ($item->is_sold || $item->user_id === $user->id) {
             abort(403);
         }
 
-        $validated = $request->validate([
-            'payment_method' => ['required', 'in:konbini,card'],
-        ]);
+        // FormRequestで検証済みデータ
+        $validated = $request->validated();
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -61,9 +67,9 @@ class PurchaseController extends Controller
 
         // 注文（未確定）作成
         $order = Order::create([
-            'user_id' => $user->id,
-            'item_id' => $item->id,
-            'price' => $item->price,
+            'user_id'        => $user->id,
+            'item_id'        => $item->id,
+            'price'          => $item->price,
             'payment_method' => $validated['payment_method'],
         ]);
 
@@ -81,19 +87,24 @@ class PurchaseController extends Controller
                 ],
             ]],
             'success_url' => route('purchase.success', $item) . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('purchase.show', $item),
+            'cancel_url'  => route('purchase.show', $item),
         ]);
 
-        $order->update(['stripe_session_id' => $session->id]);
+        $order->update([
+            'stripe_session_id' => $session->id,
+        ]);
 
         return redirect($session->url);
     }
 
-    public function success(Request $request, Item $item)
+    /**
+     * 決済成功後
+     */
+    public function success(Item $item)
     {
         $user = auth()->user();
 
-        $sessionId = $request->query('session_id');
+        $sessionId = request()->query('session_id');
         if (!$sessionId) {
             abort(400);
         }
@@ -101,23 +112,24 @@ class PurchaseController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
         $session = CheckoutSession::retrieve($sessionId);
 
-        // 自分の注文かチェック
+        // 自分の注文か確認
         $order = Order::where('stripe_session_id', $sessionId)
             ->where('user_id', $user->id)
             ->firstOrFail();
 
-        // 決済状態チェック（Stripe側）
+        // Stripe側の決済状態チェック
         if (($session->payment_status ?? null) !== 'paid') {
             return redirect()
                 ->route('purchase.show', $item)
                 ->with('message', '決済が完了していません');
         }
 
+        // 売却確定処理（排他制御）
         DB::transaction(function () use ($item, $order) {
-            // 同時購入対策（ロック）
-            $lockedItem = Item::where('id', $item->id)->lockForUpdate()->first();
+            $lockedItem = Item::where('id', $item->id)
+                ->lockForUpdate()
+                ->first();
 
-            // すでに売り切れなら何もしない（二重確定防止）
             if ($lockedItem->is_sold) {
                 return;
             }
@@ -126,37 +138,8 @@ class PurchaseController extends Controller
             $order->update(['purchased_at' => now()]);
         });
 
-        // 要件：購入後は商品一覧へ
-        return redirect()->route('items.index')->with('message', '購入が完了しました');
-    }
-
-    /**
-     * マイページに登録されている住所を取り出す
-     * - users に住所がある場合
-     * - profile（profilesテーブル等）に住所がある場合
-     * どちらでも拾えるようにしている
-     */
-    private function resolveDefaultAddress($user): array
-    {
-        // ① usersテーブルに住所がある場合（あればここで取れる）
-        $postal = $user->postal_code ?? null;
-        $address = $user->address ?? null;
-        $building = $user->building ?? null;
-
-        // ② profile に住所がある場合（User::profile() がある前提。なければ無視される）
-        if ((!$postal || !$address) && method_exists($user, 'profile')) {
-            $profile = $user->profile;
-            if ($profile) {
-                $postal = $postal ?? ($profile->postal_code ?? null);
-                $address = $address ?? ($profile->address ?? null);
-                $building = $building ?? ($profile->building ?? null);
-            }
-        }
-
-        return [
-            'postal_code' => $postal,
-            'address'     => $address,
-            'building'    => $building,
-        ];
+        return redirect()
+            ->route('items.index')
+            ->with('message', '購入が完了しました');
     }
 }

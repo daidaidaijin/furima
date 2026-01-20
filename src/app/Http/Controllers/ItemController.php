@@ -4,34 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Http\Requests\ExhibitionRequest;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
     /**
-     * トップ（おすすめ）
-     * ログイン: product_list
-     * ゲスト: product_list_guest
-     */
-    public function index()
-    {
-        // おすすめ（今は新着順）
-        $items = Item::withCount(['likes', 'comments'])
-            ->latest()
-            ->get();
+ * トップ（おすすめ）
+ * ログイン: product_list
+ * ゲスト: product_list_guest
+ * 検索: ?q=キーワード
+ */
+public function index(Request $request)
+{
+    $q = trim($request->query('q', ''));
 
-        if (auth()->check()) {
-            return view('product_list', [
-                'items' => $items,
-                'activeTab' => 'recommend',
-            ]);
-        }
+    $itemsQuery = Item::withCount(['likes', 'comments'])
+        ->latest();
 
-        return view('product_list_guest', [
+    // 検索（商品名title・ブランドbrand・説明description）
+    if ($q !== '') {
+        $itemsQuery->where(function ($sub) use ($q) {
+            $sub->where('title', 'like', "%{$q}%")
+                ->orWhere('brand', 'like', "%{$q}%")
+                ->orWhere('description', 'like', "%{$q}%");
+        });
+    }
+
+    $items = $itemsQuery->get();
+
+    if (auth()->check()) {
+        return view('product_list', [
             'items' => $items,
             'activeTab' => 'recommend',
         ]);
     }
+
+    return view('product_list_guest', [
+        'items' => $items,
+        'activeTab' => 'recommend',
+        'q' => $q,
+    ]);
+}
+
 
     /**
      * マイリスト（いいねした商品）
@@ -87,17 +102,8 @@ class ItemController extends Controller
     /**
      * 出品処理（保存）
      */
-    public function store(Request $request)
+    public function store(ExhibitionRequest $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|integer',
-            'condition' => 'required|string',
-            'categories' => 'required|array',
-        ]);
-
         // 画像保存
         $imagePath = $request->file('image')->store('items', 'public');
 

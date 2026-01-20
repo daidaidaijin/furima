@@ -14,22 +14,28 @@
     </ul>
   @endif
 
-  <form method="POST" action="{{ route('purchase.address.update', $item) }}" class="address-edit__form">
-    @csrf
+  <form method="POST" action="{{ route('purchase.address.update', $item) }}" novalidate>
+  @csrf
 
-    <label class="sell-label">郵便番号</label>
-    <input type="text" name="postal_code" class="form-input"
-      value="{{ old('postal_code', $shipping->postal_code ?? '') }}">
+  <label>郵便番号</label>
+  <input type="text" name="postal_code" value="{{ old('postal_code', $shipping->postal_code ?? '') }}" placeholder="123-4567">
 
-    <label class="sell-label">住所</label>
-    <input type="text" name="address" class="form-input"
-      value="{{ old('address', $shipping->address ?? '') }}">
+  @error('postal_code')
+    <p class="error">{{ $message }}</p>
+  @enderror
 
-    <label class="sell-label">建物名</label>
-    <input type="text" name="building" class="form-input"
-      value="{{ old('building', $shipping->building ?? '') }}">
+  <label>住所</label>
+  <input type="text" name="address" value="{{ old('address', $shipping->address ?? '') }}">
 
-    <button type="submit" class="btn-submit" style="margin-top:24px;">更新する</button>
-  </form>
+  @error('address')
+    <p class="error">{{ $message }}</p>
+  @enderror
+
+  <label>建物名</label>
+  <input type="text" name="building" value="{{ old('building', $shipping->building ?? '') }}">
+
+  <button type="submit">更新する</button>
+</form>
+
 </div>
 @endsection

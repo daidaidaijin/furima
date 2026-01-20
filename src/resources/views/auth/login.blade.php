@@ -15,21 +15,32 @@
       </ul>
     @endif
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" novalidate>
       @csrf
 
       <div class="auth-group">
         <label class="auth-label">メールアドレス</label>
-        <input class="auth-input" type="email" name="email" value="{{ old('email') }}" required autofocus>
+        <input
+          class="auth-input"
+          type="text"
+          name="email"
+          value="{{ old('email') }}"
+          autocomplete="username"
+        >
       </div>
 
       <div class="auth-group">
         <label class="auth-label">パスワード</label>
-        <input class="auth-input" type="password" name="password" required>
+        <input
+          class="auth-input"
+          type="password"
+          name="password"
+          autocomplete="current-password"
+        >
       </div>
 
       <div class="auth-actions">
-        <button class="auth-button" type="submit">ログインする</button>
+        <button class="auth-button" type="submit">ログイン</button>
       </div>
 
       <a class="auth-link" href="{{ route('register') }}">会員登録はこちら</a>

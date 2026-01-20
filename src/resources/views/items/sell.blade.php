@@ -47,12 +47,18 @@
             <label class="sell-label">商品の状態</label>
             <select name="condition" required class="form-select">
                 <option value="">選択してください</option>
-                <option value="新品・未使用">新品・未使用</option>
-                <option value="未使用に近い">未使用に近い</option>
-                <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
-                <option value="やや傷や汚れあり">やや傷や汚れあり</option>
-                <option value="傷や汚れあり">傷や汚れあり</option>
+                <option value="良好" {{ old('condition') === '良好' ? 'selected' : '' }}>良好</option>
+                <option value="目立った傷や汚れなし" {{ old('condition') === '目立った傷や汚れなし' ? 'selected' : '' }}>
+                目立った傷や汚れなし
+                </option>
+                <option value="やや傷や汚れあり" {{ old('condition') === 'やや傷や汚れあり' ? 'selected' : '' }}>
+                やや傷や汚れあり
+                </option>
+                <option value="状態が悪い" {{ old('condition') === '状態が悪い' ? 'selected' : '' }}>
+                状態が悪い
+                </option>
             </select>
+
         </section>
 
         {{-- 商品名と説明 --}}

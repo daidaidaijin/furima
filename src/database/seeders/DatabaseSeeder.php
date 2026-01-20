@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\ItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,8 +13,12 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(CategorySeeder::class);
+        $this->call([
+            UserSeeder::class,
+            CategorySeeder::class,
+            ItemSeeder::class,
+        ]);
     }
 }

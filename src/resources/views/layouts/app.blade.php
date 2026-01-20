@@ -37,8 +37,13 @@
 
             {{-- 検索 --}}
             <div class="header-search">
-                <form action="/search" method="GET">
-                    <input type="text" name="keyword" placeholder="なにをお探しですか？">
+                <form action="{{ route('items.index') }}" method="GET">
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request('q') }}"
+                        placeholder="なにをお探しですか？"
+                    >
                 </form>
             </div>
 
