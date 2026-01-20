@@ -9,25 +9,22 @@ Laravelを用いたフリマアプリです。
 ## 環境構築
 
 ### Dockerビルド
-```bash
-git clone https://github.com/【GitHubユーザー名】/【リポジトリ名】.git
-cd furima
-docker compose up -d
+- `git clone https://github.com/【GitHubユーザー名】/【リポジトリ名】.git`
+- `cd furima`
+- `docker compose up -d`
 ```
 
-```md
 ### Laravel環境構築
-
-```bash
 - docker compose exec php sh
 - composer install
 - cp .env.example .env
 - php artisan key:generate
-- php artisan migrate:fresh --seed
+- php artisan migrate:fresh --seed0
 - php artisan storage:link
-```
 
-ダミーデータ
+---
+
+## ダミーデータ
 ユーザー：1名
 
 商品：10件
