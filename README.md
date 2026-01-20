@@ -35,28 +35,28 @@ email：test@example.com
 
 password：password
 
-開発環境URL
-トップページ：http://localhost
+## 開発環境URL
+- トップページ：http://localhost
 
-会員登録：http://localhost/register
+- 会員登録：http://localhost/register
 
-ログイン：http://localhost/login
+- ログイン：http://localhost/login
 
-Mailhog：http://localhost:8025
+- Mailhog：http://localhost:8025
 
-phpMyAdmin：http://localhost:8080
+- phpMyAdmin：http://localhost:8080
 
-使用技術
-PHP 8.x
+## 使用技術
+- PHP 8.x
 
-Laravel 10.x
+- Laravel 10.x
 
-MySQL 8.0
+- MySQL 8.0
 
-Nginx
+- Nginx
 
-Docker / docker-compose
+- Docker / docker-compose
 
-Mailhog
+- Mailhog
 
-Stripe（テスト環境）
+- Stripe（テスト環境）
