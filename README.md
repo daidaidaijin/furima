@@ -12,15 +12,14 @@ Laravelを用いたフリマアプリです。
 - `git clone https://github.com/【GitHubユーザー名】/【リポジトリ名】.git`
 - `cd furima`
 - `docker compose up -d`
-```
 
 ### Laravel環境構築
 - `docker compose exec php sh`
 - `composer install`
-- cp .env.example .env
-- php artisan key:generate
-- php artisan migrate:fresh --seed
-- php artisan storage:link
+- `cp .env.example .env`
+- `php artisan key:generate`
+- `php artisan migrate:fresh --seed`
+- `php artisan storage:link`
 
 ---
 
