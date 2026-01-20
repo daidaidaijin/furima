@@ -15,11 +15,11 @@ Laravelを用いたフリマアプリです。
 ```
 
 ### Laravel環境構築
-- docker compose exec php sh
-- composer install
+- `docker compose exec php sh`
+- `composer install`
 - cp .env.example .env
 - php artisan key:generate
-- php artisan migrate:fresh --seed0
+- php artisan migrate:fresh --seed
 - php artisan storage:link
 
 ---
