@@ -15,9 +15,10 @@ cd furima
 docker compose up -d
 ```
 
-```bash
+```md
 ### Laravel環境構築
 
+```bash
 - docker compose exec php sh
 - composer install
 - cp .env.example .env
